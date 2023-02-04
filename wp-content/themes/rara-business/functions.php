@@ -11,6 +11,11 @@ if( ! defined( 'RARA_BUSINESS_THEME_NAME' ) ) define( 'RARA_BUSINESS_THEME_NAME'
 if( ! defined( 'RARA_BUSINESS_THEME_TEXTDOMAIN' ) ) define( 'RARA_BUSINESS_THEME_TEXTDOMAIN', $rara_business_theme_data->get( 'TextDomain' ) );
 
 /**
+ * Implement Local Font Method Functions.
+ */
+require get_template_directory() . '/inc/class-webfont-loader.php';
+
+/**
  * Implement the Custom Functions
  */
 require get_template_directory() . '/inc/custom-functions.php';

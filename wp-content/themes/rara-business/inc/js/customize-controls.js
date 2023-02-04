@@ -48,6 +48,19 @@ jQuery(document).ready(function($) {
         var section_id = $(this).parent('.control-subsection').attr('id');
         scrollToSection( section_id );
     });
+
+    $('body').on('click', '.flush-it', function(event) {
+        $.ajax ({
+            url     : rara_business_cdata.ajax_url,  
+            type    : 'post',
+            data    : 'action=flush_local_google_fonts',    
+            nonce   : rara_business_cdata.nonce,
+            success : function(results){
+                //results can be appended in needed
+                $( '.flush-it' ).val(rara_business_cdata.flushit);
+            },
+        });
+    });
     
 });
 

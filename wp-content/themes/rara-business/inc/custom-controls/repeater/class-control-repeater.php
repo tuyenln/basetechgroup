@@ -205,8 +205,8 @@ if( ! class_exists( 'Rara_Business_Control_Repeater' ) ) {
                             wp_enqueue_script( 'wp-color-picker' );
                             wp_enqueue_style( 'wp-color-picker' );
     					}elseif( 'font' === $field['type'] ){
-                            wp_enqueue_script( 'all', get_template_directory_uri() . '/js/all.min.js', array( 'jquery' ), '5.6.3', true );
-                            wp_enqueue_script( 'v4-shims', get_template_directory_uri() . '/js/v4-shims.min.js', array( 'jquery', 'all' ), '5.6.3', true );
+                            wp_enqueue_script( 'all', get_template_directory_uri() . '/js/all.min.js', array( 'jquery' ), '6.1.1', true );
+                            wp_enqueue_script( 'v4-shims', get_template_directory_uri() . '/js/v4-shims.min.js', array( 'jquery', 'all' ), '6.1.1', true );
     					}
     				}
     			}
@@ -401,7 +401,7 @@ if( ! class_exists( 'Rara_Business_Control_Repeater' ) ) {
     								</figure>
     
     								<div class="actions">
-    									<button type="button" class="button remove-button<# if ( ! field.default ) { #> hidden<# } #>"><?php esc_attr_e( 'Remove', 'rara-business' ); ?></button>
+    									<button type="button" class="button remove-button<# if ( ! field.default ) { #> hidden<# } #>"><?php esc_html_e( 'Remove', 'rara-business' ); ?></button>
     									<button type="button" class="button upload-button" data-label=" <?php esc_attr_e( 'Add Image', 'rara-business' ); ?>" data-alt-label="<?php esc_attr_e( 'Change Image', 'rara-business' ); ?>" >
     										<# if ( field.default ) { #>
     											<?php esc_attr_e( 'Change Image', 'rara-business' ); ?>
@@ -466,7 +466,7 @@ if( ! class_exists( 'Rara_Business_Control_Repeater' ) ) {
     
     						</div>
     					<# }); #>
-    					<button type="button" class="button-link repeater-row-remove"><?php esc_attr_e( 'Remove', 'rara-business' ); ?></button>
+    					<button type="button" class="button-link repeater-row-remove"><?php esc_html_e( 'Remove', 'rara-business' ); ?></button>
     				</div>
     			</li>
     		</script>

@@ -3,8 +3,8 @@
 Contributors: raratheme
 Requires at least: 4.7
 Requires PHP: 5.6
-Tested up to: 5.8
-Stable tag: 1.2.3
+Tested up to: 6.0
+Stable tag: 1.2.4
 License: GNU General Public License v3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Tags: two-columns, left-sidebar, right-sidebar, custom-header, custom-background, custom-logo, custom-menu, theme-options, featured-images, threaded-comments, full-width-template, footer-widgets, translation-ready, blog, e-commerce, portfolio
@@ -109,7 +109,14 @@ External resources linked to the theme.
     Some codes are taken from Twenty Twenty theme - https://wordpress.org/themes/twentytwenty/
     
 == Changelog ==
-    
+
+    1.2.4 - July 28, 2022
+    * Update: Load google font locally.
+    * Update: Updated Font Awesome library to version 6.1.1.
+    * Added: Feature to preload and flush the locally loaded google fonts.
+    * Fixed: TGMPA plugin installation issue for php 8.
+    * Removed: Schema function for single post.
+
     1.2.3 - October 20, 2021
     * Fixed escaping issue in customizer notice
 

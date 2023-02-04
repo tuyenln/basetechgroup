@@ -629,3 +629,47 @@ if ( ! function_exists( 'wp_body_open' ) ) :
         do_action( 'wp_body_open' );
     }
 endif;
+
+if( ! function_exists( 'rara_business_load_preload_local_fonts') ) :
+/**
+ * Get the file preloads.
+ *
+ * @param string $url    The URL of the remote webfont.
+ * @param string $format The font-format. If you need to support IE, change this to "woff".
+ */
+function rara_business_load_preload_local_fonts( $url, $format = 'woff2' ) {
+
+    // Check if cached font files data preset present or not. Basically avoiding 'rara_business_WebFont_Loader' class rendering.
+    $local_font_files = get_site_option( 'rara_business_local_font_files', false );
+
+    if ( is_array( $local_font_files ) && ! empty( $local_font_files ) ) {
+        $font_format = apply_filters( 'rara_business_local_google_fonts_format', $format );
+        foreach ( $local_font_files as $key => $local_font ) {
+            if ( $local_font ) {
+                echo '<link rel="preload" href="' . esc_url( $local_font ) . '" as="font" type="font/' . esc_attr( $font_format ) . '" crossorigin>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+            }	
+        }
+        return;
+    }
+
+    // Now preload font data after processing it, as we didn't get stored data.
+    $font = rara_business_webfont_loader_instance( $url );
+    $font->set_font_format( $format );
+    $font->preload_local_fonts();
+}
+endif;
+
+if( ! function_exists( 'rara_business_flush_local_google_fonts' ) ){
+    /**
+     * Ajax Callback for flushing the local font
+     */
+        function rara_business_flush_local_google_fonts() {
+        $WebFontLoader = new Rara_Business_WebFont_Loader();
+        //deleting the fonts folder using ajax
+        $WebFontLoader->delete_fonts_folder();
+        die();
+        }
+}
+add_action( 'wp_ajax_flush_local_google_fonts', 'rara_business_flush_local_google_fonts' );
+add_action( 'wp_ajax_nopriv_flush_local_google_fonts', 'rara_business_flush_local_google_fonts' );
+    

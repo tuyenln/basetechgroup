@@ -173,7 +173,14 @@ function rara_business_scripts() {
     
     wp_enqueue_style( 'animate', get_template_directory_uri(). '/css' . $build . '/animate' . $suffix . '.css', array(), '3.5.2' );
 
+    if( get_theme_mod( 'ed_localgoogle_fonts',false ) && ! is_customize_preview() && ! is_admin() ){
+        if ( get_theme_mod( 'ed_preload_local_fonts',false ) ) {
+			rara_business_load_preload_local_fonts( rara_business_get_webfont_url( rara_business_fonts_url() ) );
+        }
+        wp_enqueue_style( 'rara-business-google-fonts', rara_business_get_webfont_url( rara_business_fonts_url() ) );
+    }else{
     wp_enqueue_style( 'rara-business-google-fonts', rara_business_fonts_url(), array(), null );
+    }
 
     if( rara_business_is_woocommerce_activated() ){
         wp_enqueue_style( 'rara-business-woocommerce', get_template_directory_uri(). '/css' . $build . '/woocommerce-style' . $suffix . '.css' );
@@ -190,8 +197,8 @@ function rara_business_scripts() {
         wp_enqueue_script( 'masonry' );
         wp_enqueue_script( 'isotope-pkgd', get_template_directory_uri() . '/js' . $build . '/isotope.pkgd' . $suffix . '.js', array( 'jquery' ), '3.0.5', true );    
     }
-    wp_enqueue_script( 'all', get_template_directory_uri() . '/js' . $build . '/all' . $suffix . '.js', array( 'jquery' ), '5.6.3', true );
-    wp_enqueue_script( 'v4-shims', get_template_directory_uri() . '/js' . $build . '/v4-shims' . $suffix . '.js', array( 'jquery' ), '5.6.3', true );
+    wp_enqueue_script( 'all', get_template_directory_uri() . '/js' . $build . '/all' . $suffix . '.js', array( 'jquery' ), '6.1.1', true );
+    wp_enqueue_script( 'v4-shims', get_template_directory_uri() . '/js' . $build . '/v4-shims' . $suffix . '.js', array( 'jquery' ), '6.1.1', true );
     wp_enqueue_script( 'rara-business-modal-accessibility', get_template_directory_uri() . '/js' . $build . '/modal-accessibility' . $suffix . '.js', array( 'jquery' ), RARA_BUSINESS_THEME_VERSION, true );
     if( get_theme_mod( 'ed_animation',true ) ){
         wp_enqueue_script( 'wow', get_template_directory_uri() . '/js' . $build . '/wow' . $suffix . '.js', array( 'jquery' ), RARA_BUSINESS_THEME_VERSION, true );
@@ -422,77 +429,6 @@ function rara_business_get_the_archive_title( $title ){
 }
 endif;
 add_filter( 'get_the_archive_title', 'rara_business_get_the_archive_title' );
-
-if( ! function_exists( 'rara_business_single_post_schema' ) ) :
-/**
- * Single Post Schema
- *
- * @return string
- */
-function rara_business_single_post_schema() {
-    if ( is_singular( 'post' ) ) {
-        global $post;
-        $custom_logo_id = get_theme_mod( 'custom_logo' );
-
-        $site_logo   = wp_get_attachment_image_src( $custom_logo_id , 'rara-business-schema' );
-        $images      = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'full' );
-        $excerpt     = rara_business_escape_text_tags( $post->post_excerpt );
-        $content     = $excerpt === "" ? mb_substr( rara_business_escape_text_tags( $post->post_content ), 0, 110 ) : $excerpt;
-        $schema_type = ! empty( $custom_logo_id ) && has_post_thumbnail( $post->ID ) ? "BlogPosting" : "Blog";
-
-        $args = array(
-            "@context"  => "https://schema.org",
-            "@type"     => $schema_type,
-            "mainEntityOfPage" => array(
-                "@type" => "WebPage",
-                "@id"   => esc_url( get_permalink( $post->ID ) )
-            ),
-            "headline"      => esc_html( get_the_title( $post->ID ) ),
-            "datePublished" => esc_html( get_the_time( DATE_ISO8601, $post->ID ) ),
-            "dateModified"  => esc_html( get_post_modified_time(  DATE_ISO8601, __return_false(), $post->ID ) ),
-            "author"        => array(
-                "@type"     => "Person",
-                "name"      => rara_business_escape_text_tags( get_the_author_meta( 'display_name', $post->post_author ) )
-            ),
-            "description" => ( class_exists('WPSEO_Meta') ? WPSEO_Meta::get_value( 'metadesc' ) : $content )
-        );
-
-        if ( has_post_thumbnail( $post->ID ) ) :
-            $args['image'] = array(
-                "@type"  => "ImageObject",
-                "url"    => $images[0],
-                "width"  => $images[1],
-                "height" => $images[2]
-            );
-        endif;
-
-        if ( ! empty( $custom_logo_id ) ) :
-            $args['publisher'] = array(
-                "@type"       => "Organization",
-                "name"        => esc_html( get_bloginfo( 'name' ) ),
-                "description" => wp_kses_post( get_bloginfo( 'description' ) ),
-                "logo"        => array(
-                    "@type"   => "ImageObject",
-                    "url"     => $site_logo[0],
-                    "width"   => $site_logo[1],
-                    "height"  => $site_logo[2]
-                )
-            );
-        endif;
-
-        echo '<script type="application/ld+json">' , PHP_EOL;
-
-        if ( version_compare( PHP_VERSION, '5.4.0' , '>=' ) ) {
-            echo wp_json_encode( $args, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT ) , PHP_EOL;
-        } else {
-            echo wp_json_encode( $args ) , PHP_EOL;
-        }
-
-        echo '</script>' , PHP_EOL;
-    }
-}
-endif;
-add_action( 'wp_head', 'rara_business_single_post_schema' );
 
 if( ! function_exists( 'rara_business_get_comment_author_link' ) ) :
     /**

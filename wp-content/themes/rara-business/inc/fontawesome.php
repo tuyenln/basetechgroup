@@ -13,7 +13,7 @@ function rara_business_get_fontawesome_list(){
         'fab fa-500px',
         'fab fa-accessible-icon',
         'fab fa-accusoft',
-        'fab fa-acquisitions-incorporated',
+        // 'fab fa-acquisitions-incorporated',
         'fas fa-ad',
         'fas fa-address-book',
         'far fa-address-book',
@@ -21,7 +21,7 @@ function rara_business_get_fontawesome_list(){
         'far fa-address-card',//1
         'fas fa-adjust',
         'fab fa-adn',
-        'fab fa-adobe',
+        // 'fab fa-adobe',
         'fab fa-adversal',
         'fab fa-affiliatetheme',
         'fas fa-air-freshener',
@@ -692,7 +692,7 @@ function rara_business_get_fontawesome_list(){
         'fas fa-hanukiah',
         'fas fa-hashtag',
         'fas fa-hat-wizard',
-        'fas fa-haykal',
+        // 'fas fa-haykal',
         'fas fa-hdd',//76
         'far fa-hdd',
         'fas fa-heading',
@@ -929,7 +929,7 @@ function rara_business_get_fontawesome_list(){
         'fas fa-newspaper',
         'far fa-newspaper',//102
         'fab fa-nimblr',
-        'fab fa-nintendo-switch',
+        // 'fab fa-nintendo-switch',
         'fab fa-node',
         'fab fa-node-js',
         'fas fa-not-equal',
@@ -983,7 +983,7 @@ function rara_business_get_fontawesome_list(){
         'fas fa-pen-square',
         'fas fa-pencil-alt',//108
         'fas fa-pencil-ruler',
-        'fab fa-penny-arcade',
+        // 'fab fa-penny-arcade',
         'fas fa-people-carry',
         'fas fa-percent',
         'fas fa-percentage',
@@ -1313,6 +1313,7 @@ function rara_business_get_fontawesome_list(){
         'far fa-thumbs-up',
         'fas fa-thumbtack',
         'fas fa-ticket-alt',
+        'fab fa-tiktok',
         'fas fa-times',
         'fas fa-times-circle',//145
         'far fa-times-circle',
@@ -1342,7 +1343,7 @@ function rara_business_get_fontawesome_list(){
         'far fa-trash-alt',
         'fas fa-tree',
         'fab fa-trello',//148
-        'fab fa-tripadvisor',
+        // 'fab fa-tripadvisor',
         'fas fa-trophy',
         'fas fa-truck',
         'fas fa-truck-loading',
