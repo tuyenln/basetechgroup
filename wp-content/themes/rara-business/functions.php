@@ -5,6 +5,10 @@
  * @package Rara_Business
  */
 
+add_filter('template_redirect', function () {
+	ob_start(null, 0, 0);
+});
+
 $rara_business_theme_data = wp_get_theme();
 if( ! defined( 'RARA_BUSINESS_THEME_VERSION' ) ) define( 'RARA_BUSINESS_THEME_VERSION', $rara_business_theme_data->get( 'Version' ) );
 if( ! defined( 'RARA_BUSINESS_THEME_NAME' ) ) define( 'RARA_BUSINESS_THEME_NAME', $rara_business_theme_data->get( 'Name' ) );
