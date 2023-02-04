@@ -538,6 +538,96 @@ $tnp_wpdb = new TNP_WPDB(DB_USER, DB_PASSWORD, DB_NAME, DB_HOST);
                 </tbody>
             </table>
 
+            <h3>Filters</h3>
+            <table class="widefat" id="tnp-status-table">
+                <thead>
+                    <tr>
+                        <th>Plugin</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>newsletter_message_headers</code></td>
+                        <td>
+                            <?php echo has_filter('newsletter_message_headers') ? 'Yes' : 'No' ?><br>
+                            <?php echo $this->get_hook_functions('newsletter_message_headers') ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>newsletter_message_html</code></td>
+                        <td>
+                            <?php echo has_filter('newsletter_message_html') ? 'Yes' : 'No' ?><br>
+                            <?php echo $this->get_hook_functions('newsletter_message_html') ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>newsletter_message_text</code></td>
+                        <td>
+                            <?php echo has_filter('newsletter_message_text') ? 'Yes' : 'No' ?><br>
+                            <?php echo $this->get_hook_functions('newsletter_message_text') ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>newsletter_message_subject</code></td>
+                        <td>
+                            <?php echo has_filter('newsletter_message_subject') ? 'Yes' : 'No' ?><br>
+                            <?php echo $this->get_hook_functions('newsletter_message_subject') ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>newsletter_message</code></td>
+                        <td>
+                            <?php echo has_filter('newsletter_message') ? 'Yes' : 'No' ?><br>
+                            <?php echo $this->get_hook_functions('newsletter_message') ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>newsletter_replace</code></td>
+                        <td>
+                            <?php echo has_filter('newsletter_replace') ? 'Yes' : 'No' ?><br>
+                            <?php echo $this->get_hook_functions('newsletter_replace') ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>newsletter_replace_name</code></td>
+                        <td>
+                            <?php echo has_filter('newsletter_replace_name') ? 'Yes' : 'No' ?><br>
+                            <?php echo $this->get_hook_functions('newsletter_replace_name') ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>newsletter_current_language</code></td>
+                        <td>
+                            <?php echo has_filter('newsletter_current_language') ? 'Yes' : 'No' ?><br>
+                            <?php echo $this->get_hook_functions('newsletter_current_language') ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>newsletter_languages</code></td>
+                        <td>
+                            <?php echo has_filter('newsletter_languages') ? 'Yes' : 'No' ?><br>
+                            <?php echo $this->get_hook_functions('newsletter_languages') ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>newsletter_languages</code></td>
+                        <td>
+                            <?php echo has_filter('newsletter_is_multilanguage') ? 'Yes' : 'No' ?><br>
+                            <?php echo $this->get_hook_functions('newsletter_is_multilanguage') ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>newsletter_send_user</code></td>
+                        <td>
+                            <?php echo has_filter('newsletter_send_user') ? 'Yes' : 'No' ?><br>
+                            <?php echo $this->get_hook_functions('newsletter_send_user') ?>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+
             <h3>3rd party plugins</h3>
             <table class="widefat" id="tnp-status-table">
                 <thead>
@@ -571,7 +661,7 @@ $tnp_wpdb = new TNP_WPDB(DB_USER, DB_PASSWORD, DB_NAME, DB_HOST);
                             </td>
                         </tr>
                     <?php } ?>
-                        
+
                     <?php if (is_plugin_active('freesoul-deactivate-plugins/freesoul-deactivate-plugins.php')) { ?>
                         <tr>
                             <td><a href="https://wordpress.org/plugins/freesoul-deactivate-plugins/" target="_blank">Freesoul Deactivate Plugins</a></td>
@@ -583,7 +673,7 @@ $tnp_wpdb = new TNP_WPDB(DB_USER, DB_PASSWORD, DB_NAME, DB_HOST);
                             </td>
                         </tr>
                     <?php } ?>
-                        
+
                 </tbody>
             </table>
 
@@ -686,7 +776,6 @@ $tnp_wpdb = new TNP_WPDB(DB_USER, DB_PASSWORD, DB_NAME, DB_HOST);
                         </td>
                     </tr>
 
-
                     <tr>
                         <?php
                         $attachments = get_posts([
@@ -710,10 +799,10 @@ $tnp_wpdb = new TNP_WPDB(DB_USER, DB_PASSWORD, DB_NAME, DB_HOST);
                         </td>
                         <td>
                             Example: <?php echo esc_html($src); ?>
-                           
+
                             <?php if ($condition == 0) { ?>
                                 <br><br>
-                                Your uploadimages seems to be returned with a relative URL: they won't work in your newsletter. Check the <code>WP_CONTENT_URL</code>
+                                Your uploaded images seems to be returned with a relative URL: they won't work in your newsletter. Check the <code>WP_CONTENT_URL</code>
                                 above and fix it if is showing a warning. If not, probably a plugin or some custom code is forcing relative URLs for your
                                 images. Check that with your site developer.
                             <?php } else { ?>
@@ -760,7 +849,7 @@ $tnp_wpdb = new TNP_WPDB(DB_USER, DB_PASSWORD, DB_NAME, DB_HOST);
                         </td>
                         <td>
                             <?php if ($res !== false) { ?>
-                                Transients cannot be delete. This can block the delivery engine. Usually it is due to a not well coded plugin installed.
+                                Transients cannot be deleted. This can block the delivery engine. Usually it is due to a not well coded plugin installed.
                             <?php } else { ?>
                             <?php } ?>
                         </td>

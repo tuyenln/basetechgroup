@@ -1,7 +1,7 @@
 === Newsletter - Send awesome emails from WordPress ===
 Tags: newsletter, email marketing, welcome email, signup forms, lead generation, marketing automation
-Tested up to: 6.0
-Stable tag: 7.4.6
+Tested up to: 6.1.1
+Stable tag: 7.6.0
 Contributors: satollo,webagile,michael-travan
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -125,6 +125,80 @@ Thank you, The Newsletter Team
 3. The Reports extension
 
 == Changelog ==
+
+= 7.6.0 =
+
+* Added control on admin notification of cancellations
+* Fixed the wrong error logged as "missing block.php" (anyway not affecting the plugin functionality)
+* Added fix to avoid mod_security false positive and newsletter saving problems
+* Improved image block for gmail web
+* Added filters' check on Status panel
+* Fixed Google Plus social url not cleared upon company info saving
+
+= 7.5.9 =
+
+* Fixed underlined excerpt on posts block
+
+= 7.5.8 =
+
+* Added filter on newsletter message before online view
+* Added excerpt lenght in character (useful for Chinese) on posts block
+* Improved the excerpt extraction
+* Add link on excerpt on posts block
+
+= 7.5.7 =
+
+* Check on ctype_space function (there are installation without it)
+* Improved the html-2-text conversion
+* Added language to the export
+* Status labels fixed on subscriber search and edit panel
+* Stripped HTML tags on block generated subjects
+
+= 7.5.6 =
+
+* Added new filter for multilanguage support for GTranslate (experimental)
+* Added link to the backup/recovery documentation
+
+= 7.5.5 =
+
+* Fixed access control on form manager base class
+
+= 7.5.4 =
+
+* Fixed composer icons path for Amazon AWS+Bitnami installations
+* Fixed profile form on multilanguage installation
+
+= 7.5.3 =
+
+* Fixed missing languages on profile page with WPML
+
+= 7.5.2 =
+
+* Fixed the global newsletter styles not applied when it is regenerated
+* Fixed "title" tag not showing the value for "not specified" gender
+
+= 7.5.1 =
+
+* Fixed PHPMailer loading for WP 5.4.10
+* Updated WP version compatibility
+
+= 7.5.0 =
+
+* Fixed image block width for small images or specific width
+
+= 7.4.9 =
+
+* Composer fix not updating new newsletters
+
+= 7.4.8 =
+
+* Changed the image block for Gmail
+* Removed the WP emojis staticizer on emails sent by Newsletter
+
+= 7.4.7 =
+
+* Changed removal order of the emojis admin script breaking newsletters' body
+* Disabled DOM warnings
 
 = 7.4.6 =
 

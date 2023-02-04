@@ -227,6 +227,7 @@ class NewsletterDefaultMailer extends NewsletterMailer {
     function __construct() {
         parent::__construct('default', Newsletter::instance()->get_options('smtp'));
         add_action('wp_mail_failed', [$this, 'hook_wp_mail_failed']);
+        remove_filter('wp_mail', 'wp_staticize_emoji_for_email');
     }
     
     function hook_wp_mail_failed($error) {

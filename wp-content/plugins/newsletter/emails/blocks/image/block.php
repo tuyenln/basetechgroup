@@ -55,12 +55,28 @@ if (!empty($options['width'])) {
 $media->link = $options['url'];
 $media->alt = $options['image-alt'];
 
+echo '<table width="100%"><tr><td align="', esc_attr($options['align']), '">';
+
+if ($media->link) {
+     echo '<a href="', esc_attr($media->link), '" target="_blank" rel="noopener nofollow" style="display: block; font-size: 0; text-decoration: none; line-height: normal!important">';
+} else {
+}
+
+
+echo '<img src="', esc_attr($media->url), '" width="', esc_attr($media->width), '"';
+if ($media->height) {
+    echo ' height="', esc_attr($media->height), '"';
+}
+echo ' alt="', esc_attr($media->alt), '"';
+// The font size is important for the alt text
+echo ' border="0" style="display: block; height: auto; max-width: ', esc_attr($media->width), 'px !important; width: 100%; padding: 0; border: 0; font-size: 12px"';
+echo '>';
+
+if ($media->link) {
+    echo '</a>';
+} else {
+}
+
+echo '</td></tr></table>';
 ?>
 
-<table border="0" cellspacing="0" cellpadding="0" width="100%" class="responsive" style="margin: 0;">
-    <tr>
-        <td align="<?php echo esc_attr($options['align']) ?>" valign="middle" width="100%">
-            <?php echo TNP_Composer::image($media); ?>
-        </td>
-    </tr>
-</table>

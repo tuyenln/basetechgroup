@@ -15,7 +15,7 @@ class PHPMailerLoader {
 			return;
 		}
 
-		if ( version_compare( $wp_version, '5.4.9' ) > 0 ) {
+		if ( version_compare( $wp_version, '5.5' ) >= 0 ) {
 			require_once ABSPATH . WPINC . '/PHPMailer/PHPMailer.php';
 			require_once ABSPATH . WPINC . '/PHPMailer/SMTP.php';
 			require_once ABSPATH . WPINC . '/PHPMailer/Exception.php';

@@ -3,9 +3,9 @@ Contributors: raratheme
 Donate link: https://raratheme.com/
 Tags: widgets, sidebars, social links, posts
 Requires at least: 4.4.0
-Tested up to: 5.9
+Tested up to: 6.1
 Requires PHP: 5.6
-Stable tag: 1.4.0
+Stable tag: 1.4.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -72,6 +72,12 @@ RaraTheme Companion provides 23 different handy widgets for sidebars to create a
 1. Plugin backend
 
 == Changelog ==
+
+= 1.4.1 =
+Released on: 9th Dec, 2022
+
+Enhancements:
+* Added MyPublicInbox social media field in team member widget.
 
 = 1.4.0 =
 Released on: 17th May, 2022

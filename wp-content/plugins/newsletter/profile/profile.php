@@ -262,12 +262,12 @@ class NewsletterProfile extends NewsletterModule {
             $languages = $this->get_languages();
 
             $buffer .= '<div class="tnp-field tnp-field-language">';
-            $buffer .= '<label>' . __('Language', 'Newsletter') . '</label>';
+            $buffer .= '<label>' . __('Language', 'newsletter') . '</label>';
             $buffer .= '<select name="nlng" class="tnp-language">';
 
             $buffer .= '<option value="" disabled ' . ( empty($user->language) ? ' selected' : '' ) . '>' . __('Select language', 'newsletter') . '</option>';
-            foreach ($languages as $key => $language) {
-                $buffer .= '<option value="' . $key . '"' . ( $user->language == $key ? ' selected' : '' ) . '>' . esc_html($language) . '</option>';
+            foreach ($languages as $key => $l) {
+                $buffer .= '<option value="' . $key . '"' . ( $user->language == $key ? ' selected' : '' ) . '>' . esc_html($l) . '</option>';
             }
 
             $buffer .= '</select>';
@@ -332,7 +332,7 @@ class NewsletterProfile extends NewsletterModule {
             $buffer .= "</div>\n";
         }
 
-        $local_options = $this->get_options('', $this->get_user_language($user));
+        $local_options = $this->get_options('', $language);
 
         // Privacy
         $privacy_url = NewsletterSubscription::instance()->get_privacy_url();

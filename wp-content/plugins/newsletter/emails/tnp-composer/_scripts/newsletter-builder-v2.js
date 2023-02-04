@@ -307,7 +307,6 @@ function start_composer() {
         });
     });
 
-    // live preview from block options *** EXPERIMENTAL ***
     jQuery('#tnpc-block-options-form').change(function (event) {
         var data = jQuery("#tnpc-block-options-form").serializeArray();
 
@@ -396,7 +395,7 @@ function tnpc_get_email_content_from_builder_area() {
     $elMessage.find('.tnpc-row').removeClass('ui-draggable');
     $elMessage.find('#sortable-helper').remove();
 
-    return $elMessage.html();
+    return btoa(encodeURIComponent($elMessage.html()));
 
 }
 

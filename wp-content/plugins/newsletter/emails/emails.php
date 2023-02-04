@@ -345,6 +345,13 @@ class NewsletterEmails extends NewsletterModule {
     function regenerate($email, $context = []) {
 
         $context = array_merge(['last_run' => 0, 'type' => ''], $context);
+        
+        $composer = [];
+        foreach ($email->options as $k=>$v) {
+            if (strpos($k, 'composer_') !== 0) continue;
+            $composer[substr($k, 9)] = $v;
+        }
+       
 
         preg_match_all('/data-json="(.*?)"/m', $email->message, $matches, PREG_PATTERN_ORDER);
 
@@ -362,7 +369,7 @@ class NewsletterEmails extends NewsletterModule {
             }
 
             ob_start();
-            $out = $this->render_block($options['block_id'], true, $options, $context);
+            $out = $this->render_block($options['block_id'], true, $options, $context, $composer);
             if (is_array($out)) {
                 if ($out['return_empty_message'] || $out['stop']) {
                     return false;
@@ -371,7 +378,7 @@ class NewsletterEmails extends NewsletterModule {
                     continue;
                 }
                 if (empty($subject) && !empty($out['subject'])) {
-                    $subject = $out['subject'];
+                    $subject = strip_tags($out['subject']);
                 }
             }
             $block_html = ob_get_clean();
@@ -555,7 +562,7 @@ class NewsletterEmails extends NewsletterModule {
 
         echo '<table type="options" data-json="', esc_attr($data), '" class="tnpc-block-content" border="0" cellpadding="0" align="center" cellspacing="0" width="100%" style="width: 100%!important; max-width: ', $options['block_width'], 'px!important">', "\n";
         echo "<tr>";
-        echo '<td align="', esc_attr($options['block_align']), '" style="', $style, '" bgcolor="', $block_background, '" width="100%">';
+        echo '<td align="', esc_attr($options['block_align']), '" style="', esc_attr($style), '" bgcolor="', esc_attr($block_background), '" width="100%">';
 
         //echo "<!-- block generated content -->\n";
         echo trim($content);
@@ -774,7 +781,7 @@ class NewsletterEmails extends NewsletterModule {
                 header('X-Robots-Tag: noindex,nofollow,noarchive');
                 header('Cache-Control: no-cache,no-store,private');
 
-                echo $this->replace($email->message, $user, $email);
+                echo apply_filters('newsletter_view_message', $this->replace($email->message, $user, $email));
 
                 die();
                 break;
@@ -939,8 +946,10 @@ class NewsletterEmails extends NewsletterModule {
         if (!is_file($full_file)) {
             return new WP_Error('1', 'Missing block.php file in ' . $dir);
         }
+        
+        $wp_content_dir = wp_normalize_path(realpath(WP_CONTENT_DIR));
 
-        $relative_dir = substr($dir, strlen(WP_CONTENT_DIR));
+        $relative_dir = substr($dir, strlen($wp_content_dir));
         $file = basename($dir);
 
         $data = get_file_data($full_file, ['name' => 'Name', 'section' => 'Section', 'description' => 'Description', 'type' => 'Type']);
@@ -975,6 +984,9 @@ class NewsletterEmails extends NewsletterModule {
         $list = [];
         $handle = opendir($dir);
         while ($file = readdir($handle)) {
+            if (substr($file, 0, 1) === '.') {
+                continue;
+            }
 
             $data = $this->build_block($dir . '/' . $file);
 

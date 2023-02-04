@@ -17,13 +17,24 @@ class NewsletterUnsubscription extends NewsletterModule {
     }
 
     function __construct() {
-        parent::__construct('unsubscription', '1.0.3');
+        parent::__construct('unsubscription', '1.0.4');
 
         add_filter('newsletter_replace', array($this, 'hook_newsletter_replace'), 10, 4);
         add_filter('newsletter_page_text', array($this, 'hook_newsletter_page_text'), 10, 3);
         add_filter('newsletter_message_headers', array($this, 'hook_add_unsubscribe_headers_to_email'), 10, 3);
 
         add_action('newsletter_action', array($this, 'hook_newsletter_action'), 11, 3);
+    }
+    
+    function upgrade() {
+        parent::upgrade();
+        
+        if (!empty($this->options['notify_admin_on_unsubscription'])) {
+            unset($this->options['notify_admin_on_unsubscription']);
+            $this->options['notify'] = '1';
+            $this->options['notify_email'] = get_option('admin_email');
+            $this->save_options($this->options);
+        }
     }
 
     function hook_newsletter_action($action, $user, $email) {
@@ -112,15 +123,15 @@ class NewsletterUnsubscription extends NewsletterModule {
 
     function notify_admin_on_unsubscription($user) {
 
-        if (empty($this->options['notify_admin_on_unsubscription'])) {
+        if (empty($this->options['notify'])) {
             return;
         }
 
         $message = $this->generate_admin_notification_message($user);
-        $email = trim(get_option('admin_email'));
+        $email = trim($this->options['notify_email']);
         $subject = $this->generate_admin_notification_subject('New cancellation');
 
-        Newsletter::instance()->mail($email, $subject, array('html' => $message));
+        Newsletter::instance()->mail($email, $subject, ['html' => $message]);
     }
 
     /**

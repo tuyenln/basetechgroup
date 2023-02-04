@@ -7,9 +7,6 @@
  * @class    RDDI_Demo_Installer_Skin
  * @extends  WP_Upgrader_Skin
  * @version  1.0.0
- * @package  Importer/Classes
- * @category Admin
- * @author   ThemeGrill
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -55,7 +52,7 @@ class RDDI_Demo_Installer_Skin extends WP_Upgrader_Skin {
 		 * Filters the list of action links available following a single demo installation.
 		 * @param array $install_actions Array of demo action links.
 		 */
-		$install_actions = apply_filters( 'themegrill_demo_install_complete_actions', $install_actions );
+		$install_actions = apply_filters_deprecated( 'themegrill_demo_install_complete_actions', array( $install_actions ), '1.3.1', 'rrdi_demo_install_complete_actions' );
 
 		if ( ! empty( $install_actions ) ) {
 			$this->feedback( implode( ' | ', (array) $install_actions ) );

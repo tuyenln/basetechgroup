@@ -2,16 +2,16 @@
 Contributors: raratheme
 Tags: import, content, demo, data, widgets, settings
 Requires at least: 4.4.0
-Tested up to: 5.9
+Tested up to: 6.1
 Requires PHP: 5.6
-Stable tag: 1.3.0
+Stable tag: 1.3.2
 License: GPLv3 or later
 
 Make your website look like the live demo of the theme with a click!
 
 == Description ==
 
-Do you love the demos of the themes made by Rara Theme? Or, need a guideline for setting up the themes? 
+Do you love the demos of the themes made by Rara Theme? Or, need a guideline for setting up the themes?
 
 Then, all you need is this plugin!
 
@@ -112,6 +112,14 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 == Changelog ==
+
+= 1.3.2 =
+* Compatibility updates
+* Fixes: Minor Bug Fixes.
+
+= 1.3.1 =
+* Fixes: Deprecated an incorrect name filter.
+* Fixes: Minor Bug Fixes.
 
 = 1.3.0 =
 * fixes: Fixed CSRF related security issues in demo file upload.

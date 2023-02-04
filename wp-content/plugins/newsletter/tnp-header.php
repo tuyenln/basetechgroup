@@ -194,6 +194,10 @@ $current_user_email = ''; //$current_user->user_email;
                         <a href="?page=newsletter_system_logs"><i class="fas fa-file"></i> <?php _e('Logs', 'newsletter') ?>
                             <small><?php _e('Plugin and addons logs', 'newsletter') ?></small></a>
                     </li>
+                    <li>
+                        <a href="https://www.thenewsletterplugin.com/documentation/developers/backup-recovery/" target="_blank"><i class="fas fa-file"></i> <?php _e('Backup', 'newsletter') ?>
+                            <small><?php _e('How to backup, recovery, delete', 'newsletter') ?></small></a>
+                    </li>
                 </ul>
             </li>
         <?php } ?>
@@ -309,7 +313,7 @@ $current_user_email = ''; //$current_user->user_email;
 if (!defined('NEWSLETTER_CRON_WARNINGS') || NEWSLETTER_CRON_WARNINGS) {
     $x = NewsletterSystem::instance()->get_job_status();
     if ($x !== NewsletterSystem::JOB_OK) {
-        echo '<div class="tnpc-warning">The are issues with the delivery engine. Please <a href="?page=newsletter_system_scheduler">check them here</a>.</div>';
+        echo '<div class="tnpc-warning">There are issues with the delivery engine. Please <a href="?page=newsletter_system_scheduler">check them here</a>.</div>';
     }
 }
 ?>

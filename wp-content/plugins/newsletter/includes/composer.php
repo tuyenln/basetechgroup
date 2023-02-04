@@ -98,33 +98,42 @@ class TNP_Composer {
      * @return type
      */
     static function get_html_open($email) {
-        $open = "<!DOCTYPE html>\n";
-        $open .= "<html xmlns=\"https://www.w3.org/1999/xhtml\" xmlns:o=\"urn:schemas-microsoft-com:office:office\">\n<head>\n<title>{email_subject}</title>\n";
-        $open .= "<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n";
+        $open = '<!DOCTYPE html>' . "\n";
+        $open .= '<html xmlns="https://www.w3.org/1999/xhtml" xmlns:o="urn:schemas-microsoft-com:office:office">' . "\n";
+        $open .= '<head>' . "\n";
+        $open .= '<title>{email_subject}</title>' . "\n";
+        $open .= '<meta charset="utf-8">' . "\n";
+        $open .= '<meta name="viewport" content="width=device-width, initial-scale=1">' . "\n";
+        $open .= '<meta http-equiv="X-UA-Compatible" content="IE=edge">' . "\n";
+        $open .= '<meta name="format-detection" content="address=no">' . "\n";
+        $open .= '<meta name="format-detection" content="telephone=no">' . "\n";
+        $open .= '<meta name="format-detection" content="email=no">' . "\n";
+        $open .= '<meta name="x-apple-disable-message-reformatting">' . "\n";
 
-        $open .= '<!--[if !mso]><!-->' . "\n";
-        $open .= '<meta http-equiv="X-UA-Compatible" content="IE=edge" />' . "\n";
-        $open .= '<!--<![endif]-->' . "\n";
+//        $open .= '<!--[if !mso]><!-->' . "\n";
+//        $open .= '<meta http-equiv="X-UA-Compatible" content="IE=edge" />' . "\n";
+//        $open .= '<!--<![endif]-->' . "\n";
+//        $open .= '<!--[if mso]>' . "\n";
 
-        $open .= '<!--[if mso]>' . "\n";
-        ;
-        $open .= '<style type="text/css">';
-        $open .= 'table {border-collapse:collapse;border-spacing:0;margin:0;}';
-        $open .= 'div, td {padding:0;}';
-        $open .= 'div {margin:0 !important;}';
-        $open .= '</style>';
-        $open .= "\n";
-        $open .= '<noscript>';
-        $open .= '<xml>';
-        $open .= '<o:OfficeDocumentSettings>';
-        $open .= '<o:PixelsPerInch>96</o:PixelsPerInch>';
-        $open .= '</o:OfficeDocumentSettings>';
-        $open .= '</xml>';
-        $open .= '</noscript>';
-        $open .= "\n";
-        $open .= '<![endif]-->';
-        $open .= "\n";
-        $open .= "<style type=\"text/css\">\n";
+        $open .= '<!--[if gte mso 9]><xml><o:OfficeDocumentSettings><o:AllowPNG/><o:PixelsPerInch>96</o:PixelsPerInch></o:OfficeDocumentSettings></xml><![endif]-->' . "\n";
+
+//        $open .= '<style type="text/css">';
+//        $open .= 'table {border-collapse:collapse;border-spacing:0;margin:0;}';
+//        $open .= 'div, td {padding:0;}';
+//        $open .= 'div {margin:0 !important;}';
+//        $open .= '</style>';
+//        $open .= "\n";
+//        $open .= '<noscript>';
+//        $open .= '<xml>';
+//        $open .= '<o:OfficeDocumentSettings>';
+//        $open .= '<o:PixelsPerInch>96</o:PixelsPerInch>';
+//        $open .= '</o:OfficeDocumentSettings>';
+//        $open .= '</xml>';
+//        $open .= '</noscript>';
+//        $open .= "\n";
+//        $open .= '<![endif]-->';
+//        $open .= "\n";
+        $open .= '<style type="text/css">' . "\n";
         $open .= NewsletterEmails::instance()->get_composer_css();
         $open .= "\n</style>\n";
         $open .= "</head>\n";
@@ -665,22 +674,32 @@ class TNP_Composer {
 
         return $button_options;
     }
-    
+
     static function convert_to_text($html) {
         if (!class_exists('DOMDocument')) {
             return '';
         }
+
+        if (!function_exists('ctype_space')) {
+            return '';
+        }
+
         // Replace '&' with '&amp;' in URLs to avoid warnings about inavlid entities from loadHTML()
         // Todo: make this more general using a regular expression
         //$logger = PlaintextNewsletterAddon::$instance->get_logger();
         //$logger->debug('html="' . $html . '"');
-        $html = str_replace( 
-            array('&nk=', '&nek=', '&id='),
-            array('&amp;nk=', '&amp;nek=', '&amp;id='),
-            $html);
+        $html = str_replace(
+                array('&nk=', '&nek=', '&id='),
+                array('&amp;nk=', '&amp;nek=', '&amp;id='),
+                $html);
         //$logger->debug('new html="' . $html . '"');
         //
         $output = '';
+
+        // Prevents warnings for problems with the HTML
+        if (function_exists('libxml_use_internal_errors')) {
+            libxml_use_internal_errors(true);
+        }
         $dom = new DOMDocument();
         $r = $dom->loadHTML('<?xml encoding="utf-8" ?>' . $html);
         if (!$r) {
@@ -693,16 +712,25 @@ class TNP_Composer {
         }
         return $output;
     }
-    
+
     static function process_dom_element(DOMElement $parent, &$output) {
         foreach ($parent->childNodes as $node) {
             if (is_a($node, 'DOMElement') && ($node->tagName != 'style')) {
-          if ($node->tagName== 'br') {
+
+                if ($node->tagName == 'br') {
                     $output .= "\n";
                     continue;
                 }
-                self::process_dom_element($node, $output);
                 
+                self::process_dom_element($node, $output);
+
+                if ($node->tagName == 'li') {
+                    if ((strlen($output) >= 1) && (substr($output, -1) != "\n")) {
+                        $output .= "\n";
+                    }
+                    continue;
+                }
+
                 // If the containing tag was a block level tag, we add a couple of line ending
                 if ($node->tagName == 'p' || $node->tagName == 'div' || $node->tagName == 'td') {
                     // Avoid more than one blank line between elements
@@ -710,17 +738,25 @@ class TNP_Composer {
                         $output .= "\n\n";
                     }
                 }
-                
+
                 if ($node->tagName == 'a') {
+                    // Check if the children is an image
+                    if (is_a($node->childNodes[0], 'DOMElement')) {
+                        if ($node->childNodes[0]->tagName == 'img') {
+                            continue;
+                        }
+                    }
                     $output .= ' (' . $node->getAttribute('href') . ') ';
                     continue;
-                }
-                elseif ($node->tagName == 'img') {
+                } elseif ($node->tagName == 'img') {
                     $output .= $node->getAttribute('alt');
                 }
-            }
-            elseif (is_a($node, 'DOMText')) {
+            } elseif (is_a($node, 'DOMText')) {
+
+                // ???
                 $decoded = utf8_decode($node->wholeText);
+                //$decoded = trim(html_entity_decode($node->wholeText));
+                // We could avoid ctype_*
                 if (ctype_space($decoded)) {
                     // Append blank only if last character output is not blank.
                     if ((strlen($output) > 0) && !ctype_space(substr($output, -1))) {
@@ -728,13 +764,13 @@ class TNP_Composer {
                     }
                 } else {
                     $output .= trim($node->wholeText);
+                    $output .= ' ';
                 }
             }
         }
     }
+
 }
-
-
 
 class TNP_Style {
 

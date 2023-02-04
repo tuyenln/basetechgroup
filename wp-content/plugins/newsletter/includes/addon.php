@@ -323,7 +323,7 @@ class NewsletterFormManagerAddon extends NewsletterAddon {
     function init() {
         parent::init();
 
-        if (is_admin() && !empty($this->menu_title) && !empty($this->dir) && current_user_can('administrator')) {
+        if (is_admin() && !empty($this->menu_title) && !empty($this->dir) && Newsletter::instance()->is_allowed()) {
             add_action('admin_menu', [$this, 'hook_admin_menu'], 101);
             add_filter('newsletter_menu_subscription', [$this, 'hook_newsletter_menu_subscription']);
         }
@@ -335,7 +335,7 @@ class NewsletterFormManagerAddon extends NewsletterAddon {
     }
 
     function hook_admin_menu() {
-        add_submenu_page('newsletter_main_index', $this->menu_title, '<span class="tnp-side-menu">' . $this->menu_title . '</span>', 'manage_options', 'newsletter_' . $this->name . '_index',
+        add_submenu_page('newsletter_main_index', $this->menu_title, '<span class="tnp-side-menu">' . $this->menu_title . '</span>', 'exist', 'newsletter_' . $this->name . '_index',
                 function () {
                     require $this->dir . '/admin/index.php';
                 }

@@ -4,7 +4,7 @@
   Plugin Name: Newsletter
   Plugin URI: https://www.thenewsletterplugin.com/plugins/newsletter
   Description: Newsletter is a cool plugin to create your own subscriber list, to send newsletters, to build your business. <strong>Before update give a look to <a href="https://www.thenewsletterplugin.com/category/release">this page</a> to know what's changed.</strong>
-  Version: 7.4.6
+  Version: 7.6.0
   Author: Stefano Lissa & The Newsletter Team
   Author URI: https://www.thenewsletterplugin.com
   Disclaimer: Use at your own risk. No warranty expressed or implied is provided.
@@ -37,7 +37,7 @@ if (version_compare(phpversion(), '5.6', '<')) {
     return;
 }
 
-define('NEWSLETTER_VERSION', '7.4.6');
+define('NEWSLETTER_VERSION', '7.6.0');
 
 global $newsletter, $wpdb;
 
@@ -90,9 +90,7 @@ class Newsletter extends NewsletterModule {
     var $time_start;
     var $time_limit = 0;
     var $max_emails = null;
-
     var $mailer = null;
-
     var $action = '';
 
     /**  @var Newsletter */
@@ -149,11 +147,8 @@ class Newsletter extends NewsletterModule {
             add_filter('display_post_states', [$this, 'add_notice_to_chosen_profile_page_hook'], 10, 2);
 
             if ($this->is_admin_page()) {
-                // Remove the emoji replacer to save to database the original emoji characters (see even woocommerce for the same problem)
-                remove_action('admin_print_scripts', 'print_emoji_detection_script');
                 add_action('admin_enqueue_scripts', [$this, 'hook_admin_enqueue_scripts']);
             }
-
         }
     }
 
@@ -204,7 +199,7 @@ class Newsletter extends NewsletterModule {
 
             if ($this->is_admin_page()) {
 
-                $dismissed = get_option('newsletter_dismissed',  []);
+                $dismissed = get_option('newsletter_dismissed', []);
 
                 if (isset($_GET['dismiss'])) {
                     $dismissed[$_GET['dismiss']] = 1;
@@ -502,6 +497,11 @@ class Newsletter extends NewsletterModule {
             delete_option('newsletter_show_welcome');
             wp_redirect(admin_url('admin.php?page=newsletter_main_welcome'));
         }
+
+        if ($this->is_admin_page()) {
+            // Remove the emoji replacer to save to database the original emoji characters (see even woocommerce for the same problem)
+            remove_action('admin_print_scripts', 'print_emoji_detection_script');
+        }
     }
 
     function hook_admin_head() {
@@ -582,7 +582,7 @@ class Newsletter extends NewsletterModule {
 
     function get_emails_per_run() {
         $speed = $this->get_send_speed();
-        $max = (int)($speed / $this->get_runs_per_hour());
+        $max = (int) ($speed / $this->get_runs_per_hour());
 
         return $max;
     }
@@ -644,15 +644,15 @@ class Newsletter extends NewsletterModule {
      */
     function send($email, $users = null, $test = false) {
         global $wpdb;
-        
+
         if (is_array($email)) {
             $email = (object) $email;
-        }        
+        }
 
         $this->logger->info(__METHOD__ . '> Send email ' . $email->id);
 
         $this->send_setup();
-        
+
         if ($this->max_emails <= 0) {
             $this->logger->info(__METHOD__ . '> No more capacity');
             return false;
@@ -744,7 +744,7 @@ class Newsletter extends NewsletterModule {
                         return $r;
                     }
                 }
-                
+
                 if (!$supplied_users && !$test && $this->time_exceeded()) {
                     $result = false;
                     break;
@@ -794,7 +794,7 @@ class Newsletter extends NewsletterModule {
                         return $r;
                     }
                 }
-                
+
                 if (!$supplied_users && !$test && $this->time_exceeded()) {
                     $result = false;
                     break;
@@ -818,7 +818,7 @@ class Newsletter extends NewsletterModule {
 
         return $result;
     }
-    
+
     function update_send_stats($start_time, $end_time, $count, $result) {
         $send_calls = get_option('newsletter_diagnostic_send_calls', []);
         $send_calls[] = [$start_time, $end_time, $count, $result];
@@ -934,12 +934,13 @@ class Newsletter extends NewsletterModule {
      * @deprecated since version 6.0.0
      */
     function register_mail_method($callable) {
+        
     }
 
     function register_mailer($mailer) {
         if ($mailer instanceof NewsletterMailer) {
             $this->mailer = $mailer;
-        } 
+        }
     }
 
     /**
@@ -1239,7 +1240,8 @@ class Newsletter extends NewsletterModule {
      */
     function get_newsletter_page() {
         $page_id = $this->get_newsletter_page_id();
-        if (!$page_id) return false;
+        if (!$page_id)
+            return false;
         return get_post($this->get_newsletter_page_id());
     }
 

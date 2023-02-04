@@ -18,6 +18,7 @@ if (!$controls->is_action()) {
 } else {
 
     if ($controls->is_action('save')) {
+        $controls->data['googleplus_url'] = '';
         $this->merge_options($controls->data);
         $this->save_options($controls->data, 'info');
         $controls->add_message_saved();

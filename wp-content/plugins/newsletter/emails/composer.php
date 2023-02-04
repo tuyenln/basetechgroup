@@ -15,6 +15,7 @@ $email = null;
 
 if ($controls->is_action()) {
 
+
     if ($controls->is_action('save_preset')) {
         $this->admin_logger->info('Saving new preset: ' . $controls->data['subject']);
         // Create new preset email

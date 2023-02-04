@@ -2,6 +2,7 @@
 
 defined('ABSPATH') || exit;
 
+
 class NewsletterSystem extends NewsletterModule {
 
     static $instance;
@@ -141,6 +142,8 @@ class NewsletterSystem extends NewsletterModule {
         // Send calls stats
         $send_calls = get_option('newsletter_diagnostic_send_calls', []);
         if (!$send_calls) {
+            // It clean up possible scrambled data
+            $this->reset_send_stats();
             return null;
         }
         $send_max = 0;
