@@ -4,7 +4,9 @@
  *
  * @package Software_Company
  */
-
+add_filter('template_redirect', function () {
+    ob_start(null, 0, 0);
+});
 /**
  * After setup theme hook
  */
